@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { MercadoPagoService } from "@/adapters/services/mercadoPago/MercadoPagoService";
 import { ResourceNotFoundError } from "@/core/domain/base/errors/useCases/ResourceNotFoundError";
+import { IPaymentService } from "@/core/interfaces/services/IPaymentService";
 import { ComboUseCase } from "@/core/useCases/combo/ComboUseCase";
 import { IComboUseCase } from "@/core/useCases/combo/IComboUseCase";
 import { OrderUseCase } from "@/core/useCases/order/OrderUseCase";
@@ -19,6 +21,7 @@ let inMemoryComboRepository: InMemoryComboRepository;
 let inMemoryOrderComboItemRepository: InMemoryOrderComboItemRepository;
 let inMemoryComboProductRepository: InMemoryComboProductRepository;
 let comboUseCase: IComboUseCase;
+let paymentService: IPaymentService;
 let sut: OrderUseCase;
 
 describe("Given the Get Order By Id UseCase", () => {
@@ -42,11 +45,14 @@ describe("Given the Get Order By Id UseCase", () => {
       inMemoryProductRepository
     );
 
+    paymentService = new MercadoPagoService();
+
     sut = new OrderUseCase(
       inMemoryOrderRepository,
       inMemoryClientRepository,
       inMemoryProductRepository,
       inMemoryComboRepository,
+      paymentService,
       comboUseCase
     );
   });
