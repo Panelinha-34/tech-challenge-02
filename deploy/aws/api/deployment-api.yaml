@@ -29,8 +29,33 @@ spec:
         - name: DATABASE_URL
           valueFrom:
             configMapKeyRef:
-              name: db-config
+              name: api-config
               key: POSTGRES_URL
+        - name: MERCADO_PAGO_WEBHOOK_URL
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: MERCADO_PAGO_WEBHOOK_URL
+        - name: MERCADO_PAGO_API_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: MERCADO_PAGO_API_HOST
+        - name: MERCADO_PAGO_BEARER_TOKEN
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: MERCADO_PAGO_BEARER_TOKEN
+        - name: MERCADO_PAGO_USER_ID
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: MERCADO_PAGO_USER_ID
+        - name: MERCADO_PAGO_EXTERNAL_POS_ID
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: MERCADO_PAGO_EXTERNAL_POS_ID
         
         # Probes
         startupProbe:
