@@ -6,6 +6,7 @@ metadata:
     name: api-config
 data:
   POSTGRES_URL: postgresql://docker:ps123@svc-db:5432/tech-challenge
+  MERCADO_PAGO_GENERATE_PAYMENT: "off"
   MERCADO_PAGO_WEBHOOK_URL: http://ae746c01439fb45419cd895ca19936f8-1520458735.us-east-1.elb.amazonaws.com/webhook
   MERCADO_PAGO_API_HOST: https://api.mercadopago.com
   MERCADO_PAGO_BEARER_TOKEN: TEST-509899401579038-012212-e96aae51275244a79f540cc3f95e9d59-359694122

@@ -56,6 +56,11 @@ spec:
             configMapKeyRef:
               name: api-config
               key: MERCADO_PAGO_EXTERNAL_POS_ID
+        - name: MERCADO_PAGO_GENERATE_PAYMENT
+          valueFrom:
+            configMapKeyRef:
+              name: api-config
+              key: MERCADO_PAGO_GENERATE_PAYMENT
         
         # Probes
         startupProbe:

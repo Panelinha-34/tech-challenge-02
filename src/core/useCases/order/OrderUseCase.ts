@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 
+import { env } from "config/env";
+
 import { UniqueEntityId } from "@/core/domain/base/entities/UniqueEntityId";
 import { UnsupportedArgumentValueError } from "@/core/domain/base/errors/entities/UnsupportedArgumentValueError";
 import { MinimumResourcesNotReached } from "@/core/domain/base/errors/useCases/MinimumResourcesNotReached";
@@ -274,9 +276,10 @@ export class OrderUseCase implements IOrderUseCase {
 
     order.combos = new OrderComboItemList(orderCombosToCreate);
 
-    const { qrCode } = await this.paymentService.createPayment(order);
-
-    order.paymentDetails = qrCode;
+    if (env.MERCADO_PAGO_GENERATE_PAYMENT === "on") {
+      const { qrCode } = await this.paymentService.createPayment(order);
+      order.paymentDetails = qrCode;
+    }
 
     const createdOrder = await this.orderRepository.create(order);
 
