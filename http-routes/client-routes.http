@@ -1,6 +1,6 @@
-@host = http://localhost:3333
+# @host = http://localhost:3333
 # @host = http://localhost:31100
-# @host = http://a3cf89e06b39f4d458c42c9d804b446f-953035984.us-east-1.elb.amazonaws.com
+@host = http://ae746c01439fb45419cd895ca19936f8-1520458735.us-east-1.elb.amazonaws.com
 
 
 # @name get-clients
