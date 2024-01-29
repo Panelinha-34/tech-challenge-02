@@ -1,3 +1,5 @@
+import { env } from "config/env";
+
 import { Order } from "@/core/domain/entities/Order";
 
 import { CreatePaymentRequest, Item } from "../model/CreatePaymentRequest";
@@ -19,8 +21,7 @@ export class OrderToCreatePaymentRequestConverter {
       description: order.id.toString(),
       external_reference: order.id.toString(),
       items,
-      notification_url:
-        "https://webhook.site/ad40ef19-51ed-4b1c-bd03-98a92f99550a",
+      notification_url: env.MERCADO_PAGO_WEBHOOK_URL,
       title: order.id.toString(),
       total_amount: order.totalPrice,
     };

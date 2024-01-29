@@ -4,6 +4,7 @@ import { CreateOrderPresenter } from "@/adapters/presenters/order/CreateOrderPre
 import { GetOrderByIdPresenter } from "@/adapters/presenters/order/GetOrderByIdPresenter";
 import { GetOrdersPresenter } from "@/adapters/presenters/order/GetOrdersPresenter";
 import { GetOrdersQueueFormatedPresenter } from "@/adapters/presenters/order/GetOrdersQueueFormatedPresenter";
+import { OrderWebHookPresenter } from "@/adapters/presenters/order/OrderWebHookPresenter";
 import { UpdateOrderStatusPresenter } from "@/adapters/presenters/order/UpdateOrderStatusPresenter";
 import { IOrderUseCase } from "@/core/useCases/order/IOrderUseCase";
 
@@ -17,7 +18,8 @@ export class OrderController {
     private getOrdersQueueFormatedPresenter: GetOrdersQueueFormatedPresenter,
     private createOrderPresenter: CreateOrderPresenter,
     private getOrderByIdPresenter: GetOrderByIdPresenter,
-    private updateOrderStatusPresenter: UpdateOrderStatusPresenter
+    private updateOrderStatusPresenter: UpdateOrderStatusPresenter,
+    private orderWebHookPresenter: OrderWebHookPresenter
   ) {}
 
   async getOrders(
@@ -84,6 +86,15 @@ export class OrderController {
       )
       .catch((error) =>
         this.updateOrderStatusPresenter.convertErrorResponse(error, res)
+      );
+  }
+
+  async webhook(req: FastifyRequest, res: FastifyReply): Promise<void> {
+    return this.orderUseCase
+      .orderWebhook(this.orderWebHookPresenter.convertToUseCaseDTO(req))
+      .then(() => this.orderWebHookPresenter.sendResponse(res))
+      .catch((error) =>
+        this.orderWebHookPresenter.convertErrorResponse(error, res)
       );
   }
 }

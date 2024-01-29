@@ -9,7 +9,7 @@ const urlNumberExtractor = z
   })
   .transform((value) => {
     const matches = value.match(/\d+$/);
-    return matches?.[0];
+    return matches![0];
   });
 
 export const orderWebhookPayloadSchema = z.object({
@@ -17,7 +17,7 @@ export const orderWebhookPayloadSchema = z.object({
   topic: z.literal("merchant_order"),
 });
 
-export const getOrdersDocSchema = {
+export const orderWebHookDocSchema = {
   tags: [tag],
   description: `${tag} webhook`,
   body: {

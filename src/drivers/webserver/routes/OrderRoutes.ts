@@ -5,11 +5,13 @@ import { createOrderDocSchema } from "@/adapters/controllers/order/schema/Create
 import { getOrderByIdDocSchema } from "@/adapters/controllers/order/schema/GetOrderByIdSchema";
 import { getOrdersQueueFormatedDocSchema } from "@/adapters/controllers/order/schema/GetOrdersQueueFormatedSchema";
 import { getOrdersDocSchema } from "@/adapters/controllers/order/schema/GetOrdersSchema";
+import { orderWebHookDocSchema } from "@/adapters/controllers/order/schema/OrderWebHookSchema";
 import { updateOrderStatusDocSchema } from "@/adapters/controllers/order/schema/UpdateOrderStatusSchema";
 import { CreateOrderPresenter } from "@/adapters/presenters/order/CreateOrderPresenter";
 import { GetOrderByIdPresenter } from "@/adapters/presenters/order/GetOrderByIdPresenter";
 import { GetOrdersPresenter } from "@/adapters/presenters/order/GetOrdersPresenter";
 import { GetOrdersQueueFormatedPresenter } from "@/adapters/presenters/order/GetOrdersQueueFormatedPresenter";
+import { OrderWebHookPresenter } from "@/adapters/presenters/order/OrderWebHookPresenter";
 import { UpdateOrderStatusPresenter } from "@/adapters/presenters/order/UpdateOrderStatusPresenter";
 import {
   makeOrderRepository,
@@ -36,7 +38,8 @@ export async function OrderRoutes(app: FastifyInstance) {
     new GetOrdersQueueFormatedPresenter(),
     new CreateOrderPresenter(),
     new GetOrderByIdPresenter(),
-    new UpdateOrderStatusPresenter()
+    new UpdateOrderStatusPresenter(),
+    new OrderWebHookPresenter()
   );
 
   app.get("", {
@@ -62,5 +65,10 @@ export async function OrderRoutes(app: FastifyInstance) {
   app.patch("/:id", {
     schema: updateOrderStatusDocSchema,
     handler: orderController.updateOrderStatus.bind(orderController),
+  });
+
+  app.post("/webhook", {
+    schema: orderWebHookDocSchema,
+    handler: orderController.webhook.bind(orderController),
   });
 }

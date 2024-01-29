@@ -11,6 +11,8 @@ const envSchema = z.object({
   MERCADO_PAGO_WEBHOOK_URL: z.string(),
   MERCADO_PAGO_API_HOST: z.string(),
   MERCADO_PAGO_BEARER_TOKEN: z.string(),
+  MERCADO_PAGO_USER_ID: z.string(),
+  MERCADO_PAGO_EXTERNAL_POS_ID: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);

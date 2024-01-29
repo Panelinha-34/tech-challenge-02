@@ -1,4 +1,4 @@
-@host = http://localhost:3333
+@host = http://ae746c01439fb45419cd895ca19936f8-1520458735.us-east-1.elb.amazonaws.com
 # @host = http://localhost:31100
 
 # @name get-orders
@@ -21,14 +21,15 @@ POST {{host}}/orders
 content-type: application/json
 
 {
-  "clientId": "8d853582-8d37-4a79-b238-b0d97f4fe4b2",
+  "clientId": "6a282d4d-1994-4e04-9b7e-1a7bd346e756",
   "paymentMethod": "QR_CODE",
   "paymentStatus": "PENDING_PAYMENT",
   "combos": [
     {
-      "sandwichId": "3373d7d9-2b40-407b-8f97-d4f600e56220",
-      "drinkId": "041008cb-3d4b-49ce-9049-84b42da1bbee",
-      "quantity": 1,
+      "sandwichId": "ac07ea2e-3f7d-4699-81a2-3445ca535b99",
+      "drinkId": "b8c6ab0e-2dc6-4a37-860d-538ce0e957d2",
+      "sideId": "bca08c8e-e9cc-4e8f-9c59-590514658809",
+      "quantity": 2,
       "annotation": "remove the tomatos"
     }
   ]
@@ -43,6 +44,16 @@ content-type: application/json
 
 {
   "status": "IN_PREPARATION"
+}
+### 
+
+# @name webhook
+POST {{host}}/orders/webhook
+content-type: application/json
+
+{
+  "resource": "https://api.mercadolibre.com/merchant_orders/15308297344",
+  "topic": "merchant_order"
 }
 
 

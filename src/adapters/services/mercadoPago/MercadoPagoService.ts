@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { env } from "config/env";
+
 import { Order } from "@/core/domain/entities/Order";
 import { IPaymentService } from "@/core/interfaces/services/IPaymentService";
 
@@ -17,9 +19,9 @@ export class MercadoPagoService implements IPaymentService {
     const request = OrderToCreatePaymentRequestConverter.convert(order);
 
     const { data } = await api.post<CreatePaymentResponse>(
-      ENDPOINT.replace("{userId}", "359694122").replace(
+      ENDPOINT.replace("{userId}", env.MERCADO_PAGO_USER_ID).replace(
         "{externalPOSId}",
-        "SUC001"
+        env.MERCADO_PAGO_EXTERNAL_POS_ID
       ),
       request
     );

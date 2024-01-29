@@ -9,7 +9,7 @@ import {
 import { ErrorHandlingPresenter } from "../base/ErrorHandlingPresenter";
 import { IControllerPresenter } from "../base/IControllerPresenter";
 
-export class UpdateOrderStatusPresenter
+export class OrderWebHookPresenter
   extends ErrorHandlingPresenter
   implements
     IControllerPresenter<
@@ -19,16 +19,17 @@ export class UpdateOrderStatusPresenter
     >
 {
   convertToUseCaseDTO(req: FastifyRequest): OrderWebHookUseCaseRequestDTO {
-    const { resource, topic } = orderWebhookPayloadSchema.parse(req.body);
+    const { resource: platformOrderId } = orderWebhookPayloadSchema.parse(
+      req.body
+    );
 
     return {
-      id,
-      status,
+      platformOrderId,
     };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  sendResponse(res: FastifyReply, response: OrderWebHookUseCaseResponseDTO) {
+  sendResponse(res: FastifyReply) {
     return res.status(200).send();
   }
 }
