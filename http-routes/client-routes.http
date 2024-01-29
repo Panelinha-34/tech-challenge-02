@@ -1,0 +1,37 @@
+@host = http://localhost:3333
+# @host = http://localhost:31100
+# @host = http://a3cf89e06b39f4d458c42c9d804b446f-953035984.us-east-1.elb.amazonaws.com
+
+
+# @name get-clients
+GET {{host}}/clients
+
+###
+
+# @name get-client-by-id
+GET {{host}}/clients/dce1cf4a-aa2a-4b20-9a16-abd36ab7fb72
+
+### 
+
+# @name create-client
+POST {{host}}/clients  
+content-type: application/json
+
+{
+    "email": "john.doe52@gmail.com",
+    "name": "John Doe2",
+    "taxVat": "12313"
+}
+
+### 
+
+# @name edit-client
+PUT {{host}}/clients/dce1cf4a-aa2a-4b20-9a16-abd36ab7fb72
+content-type: application/json
+
+{
+    "email": "john.23@gmail.com",
+    "name": "John Doe ALTERED"
+}
+
+

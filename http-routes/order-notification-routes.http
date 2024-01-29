@@ -1,0 +1,5 @@
+@host = http://localhost:3333
+# @host = http://localhost:31100
+
+# @name get-orders
+GET {{host}}/order-notifications

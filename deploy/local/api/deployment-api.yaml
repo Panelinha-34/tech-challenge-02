@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-api
+  labels:
+    app: deployment-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment-api
+  template:
+    metadata:
+      labels:
+        app: deployment-api
+    spec:
+      containers:
+      - name: deployment-api
+        image: soat34/tech-challenge-02
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+          requests:
+            cpu: "0.5"
+            memory: "256Mi"
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: POSTGRES_URL
+        
+        # Probes
+        startupProbe:
+          httpGet:
+            path: /health-start
+            port: 3333
+          failureThreshold: 10
+          periodSeconds: 10
+          initialDelaySeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health-read
+            port: 3333
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health-live
+            port: 3333
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          failureThreshold: 3

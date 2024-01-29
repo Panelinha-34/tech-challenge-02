@@ -1,0 +1,10 @@
+@host = http://localhost:3333
+# @host = http://localhost:31100
+
+# @name get-combos
+GET {{host}}/combos
+
+###
+
+# @name get-combo-by-id
+GET {{host}}/combos/5a55ead7-17a7-4b70-b513-444338125ae5

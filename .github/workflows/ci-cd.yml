@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  run-unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn run test
+
+  deploy:
+    needs: run-unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name fiap-tech-challenge-02 --region us-east-1
+
+      - name: Login to DockerHub
+        run: docker login -u soat34 -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        run: |
+          VERSION_TAG=$(git rev-parse --short HEAD)
+          docker build -t soat34/tech-challenge-02:$VERSION_TAG .
+          docker push soat34/tech-challenge-02:$VERSION_TAG
+          docker tag soat34/tech-challenge-02:$VERSION_TAG soat34/tech-challenge-02:latest
+          docker push soat34/tech-challenge-02:latest
+
+      - name: Update Deployment Image
+        run: |
+          VERSION_TAG=$(git rev-parse --short HEAD)
+          kubectl set image deployment/deployment-api deployment-api=soat34/tech-challenge-02:$VERSION_TAG
+
+      - name: Verify Deployment 
+        run: |
+          kubectl rollout status deployment/deployment-api

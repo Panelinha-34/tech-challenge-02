@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: bitnami/postgresql
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRESQL_USERNAME
+              value: "docker"
+            - name: POSTGRESQL_PASSWORD
+              value: "ps123"
+            - name: POSTGRESQL_DATABASE
+              value: "tech-challenge"
+          resources:
+            limits:
+              cpu: "500m"  
+              memory: "256Mi"
+            requests:
+              cpu: "250m"  
+              memory: "128Mi"

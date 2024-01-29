@@ -1,0 +1,48 @@
+@host = http://localhost:3333
+# @host = http://localhost:31100
+
+# @name get-orders
+GET {{host}}/orders
+
+###
+
+# @name get-orders-queue
+GET {{host}}/orders/queue
+
+###
+
+# @name get-order-by-id 
+GET {{host}}/orders/1676f8da-6649-47c3-bab7-30a34477de7c
+
+### 
+
+# @name create-order
+POST {{host}}/orders  
+content-type: application/json
+
+{
+  "clientId": "8d853582-8d37-4a79-b238-b0d97f4fe4b2",
+  "paymentMethod": "QR_CODE",
+  "paymentStatus": "PENDING_PAYMENT",
+  "combos": [
+    {
+      "sandwichId": "3373d7d9-2b40-407b-8f97-d4f600e56220",
+      "drinkId": "041008cb-3d4b-49ce-9049-84b42da1bbee",
+      "quantity": 1,
+      "annotation": "remove the tomatos"
+    }
+  ]
+}
+
+### 
+
+
+# @name update-order-status
+PATCH {{host}}/orders/c46f18c7-5296-4be8-aa43-95ea1c8df925
+content-type: application/json
+
+{
+  "status": "IN_PREPARATION"
+}
+
+
